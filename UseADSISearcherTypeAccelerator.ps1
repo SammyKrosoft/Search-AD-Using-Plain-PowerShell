@@ -26,7 +26,12 @@ Foreach ($item in $allresults) {
         #Version1 = $item.Properties['msExchVersion']
         #VErsion2 = $item.Properties['msExchMinAdminVersion']
         Version = $Item.Properties['serialNumber']
-        Roles = $Item.Properties['msExchCurrentServerRoles']
+        RolesNb = $Item.Properties['msExchCurrentServerRoles']
+        RolesString = Switch ($Item.Properties['msExchCurrentServerRoles']){
+                        2 {"MBX"}
+                        38 {"CAS, HUB, MBX"}
+                        16439 {"CAS, HUB, MBX"}
+                            }
 
     }
 }
@@ -45,3 +50,21 @@ $Exchange2016Count = ($coll | ? {$_.Version -match "15\.1"}| measure).count
 Write-Host "There are $Exchange2010Count Exchange 2010 servers"
 Write-Host "There are $Exchange2013Count Exchange 2013 servers"
 Write-Host "There are $Exchange2016Count Exchange 2016 servers"
+
+<# msExchCurrentServerRoles values:
+    The value here is issued from a bitwise value.
+    Single role servers:
+        MBX=2,
+        CAS=4,
+        UM=16,
+        HT=32,
+        Edge=64 
+    multirole servers:
+        CAS/HT=36,
+        CAS/MBX/HT=38,
+        CAS/UM=20,
+        E2k13 MBX=54,
+        E2K13 CAS=16385,
+        E2k13 CAS/MBX=16439
+
+#>
