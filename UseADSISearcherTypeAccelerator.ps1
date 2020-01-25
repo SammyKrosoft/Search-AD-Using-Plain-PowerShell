@@ -26,12 +26,14 @@ Foreach ($item in $allresults) {
         #Version1 = $item.Properties['msExchVersion']
         #VErsion2 = $item.Properties['msExchMinAdminVersion']
         Version = $Item.Properties['serialNumber']
+        Site = $Item.Properties['msExchServerSite']
         RolesNb = $Item.Properties['msExchCurrentServerRoles']
         RolesString = Switch ($Item.Properties['msExchCurrentServerRoles']){
                         2 {"MBX"}
                         38 {"CAS, HUB, MBX"}
                         16439 {"CAS, HUB, MBX"}
                             }
+
 
     }
 }
