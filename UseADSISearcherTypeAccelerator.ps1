@@ -29,12 +29,18 @@ Foreach ($item in $allresults) {
         Site = @("$($Item.Properties['msExchServerSite'] -Replace '^CN=|,.*$')")
         RolesNb = $Item.Properties['msExchCurrentServerRoles']
         RolesString = Switch ($Item.Properties['msExchCurrentServerRoles']){
-                        2 {"MBX"}
-                        38 {"CAS, HUB, MBX" -split ","}
-                        16439 {"CAS, HUB, MBX"  -split ","}
+                        2   {"MBX"}
+                        4   {"CAS"}
+                        16  {"UM"}
+                        20  {"CAS, UM" -split ","}
+                        32  {"HUB"}
+                        36  {"CAS, HUB" -split ","}
+                        38  {"CAS, HUB, MBX" -split ","}
+                        54  {"MBX"}
+                        64  {"Edge"}
+                        16385   {"CAS"}
+                        16439   {"CAS, HUB, MBX"  -split ","}
                             }
-
-
     }
 }
 $coll | ft
@@ -49,9 +55,9 @@ $Exchange2016Count = ($coll | ? {$_.Version -match "15\.1"}| measure).count
 #return an empty object ... piping to " measure" which is an alias for Measure-Object, the count
 #seems to be always right, even when there is only 1 object in the Object collection matching the filter.
 
-Write-Host "Number of Exchange 2010 servers: $Exchange2010Count"
-Write-Host "Number of Exchange 2013 servers: $Exchange2013Count"
-Write-Host "Number of Exchange 2016 servers:           $Exchange2016Count"
+Write-Host "Number of Exchange 2010 servers:    $Exchange2010Count"
+Write-Host "Number of Exchange 2013 servers:    $Exchange2013Count"
+Write-Host "Number of Exchange 2016 servers:    $Exchange2016Count"
 
 <# msExchCurrentServerRoles values:
     The value here is issued from a bitwise value.
