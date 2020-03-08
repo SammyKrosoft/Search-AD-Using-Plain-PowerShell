@@ -2,7 +2,8 @@
     $RootADConfigPartition = ([ADSI]'LDAP://RootDSE').configurationNamingContext
     $ADConnection = [ADSISearcher]""
     $ADConnection.SearchRoot = "LDAP://$RootADConfigPartition"
-    $ADConnection.Filter = "(objectCategory=CN=MS-Exch-Exchange-Server,CN=Schema,$RootADConfigPartition)"
+    $ADConnection.Filter = "(objectClass=MSExchExchangeServer)"
+    #NOTE: we can also use the filter: "(objectCategory=CN=MS-Exch-Exchange-Server,CN=Schema,$RootADConfigPartition)" that field requires a Distinguished Name and is a bit longer ...
     $allresults = $ADConnection.FindAll()
 
     $Coll = @()
