@@ -10,7 +10,7 @@ $ADConnection = [ADSISearcher]""
 $ADConnection.SearchRoot = "LDAP://$RootADConfigPartition"
 
 $ADConnection.Filter = "(objectClass=MSExchExchangeServer)"
-#NOTE: We also could use a filter on the objectcategory attribute, but that requires an FQDN: "(objectCategory=CN=MS-Exch-Exchange-Server,CN=Schema,$RootADConfigPartition)"
+#NOTE: We also could use a filter on the objectcategory attribute, but that requires a Distinguished Name: "(objectCategory=CN=MS-Exch-Exchange-Server,CN=Schema,$RootADConfigPartition)"
 write-host "Search root:" -BackgroundColor Yellow
 $ADConnection | select -ExpandProperty SearchRoot
 
